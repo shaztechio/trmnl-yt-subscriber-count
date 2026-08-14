@@ -40,7 +40,7 @@ custom_fields:
   field_type: string
   name: YouTube Data API Key
   placeholder: AIza...
-  learn_more_url: https://github.com/shaztechio/trmnl-yt-subscriber-count
+  help_text: https://github.com/shaztechio/trmnl-yt-subscriber-count
 - keyname: doesnt_matter
   name: About This Plugin
   category: analytics
