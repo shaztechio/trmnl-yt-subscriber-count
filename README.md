@@ -1,6 +1,13 @@
 # trmnl-yt-subscriber-count
 
+<img src="assets/icon-512.png" alt="" width="128" align="left" hspace="16" vspace="4">
+
 A TRMNL plugin that shows one YouTube channel's subscriber count. That's it.
+
+Enter a handle and an API key; the count fills the screen. Works on any public
+channel, not only your own.
+
+<br clear="left">
 
 Two-way synced with TRMNL: saving in the plugin editor commits here, and pushing here surfaces an
 "import from GitHub" prompt in TRMNL.
@@ -38,6 +45,22 @@ third-party counter shows this same rounded number.
 So the display is abbreviated (`99.2K`, `20.2M`) rather than fake-precise, and it will sit unchanged
 for days at a time on a large channel — the underlying number only moves when it crosses a rounding
 boundary. Channels that hide their count render a "Hidden" state rather than a misleading zero.
+
+## Icons
+
+| | | |
+|---|---|---|
+| <img src="assets/icon-512.png" width="72"> | `assets/icon-512.png` | 512×512 RGBA. The marketplace listing, which renders in colour. |
+| <img src="assets/icon-1bit-96.png" width="72"> | `assets/icon.svg` | The title-bar mark, inlined in each layout. |
+
+The device is **1-bit** — pure black and white, no grays. Gradients dither into
+noise and small text is unreadable, so the title-bar mark is a flat silhouette
+with the play triangle knocked out via `fill-rule="evenodd"`. The rising arrow
+was tried and dropped: rendered at 24px it merged into the badge.
+
+It is inlined as `<svg>` with `fill="currentColor"` rather than linked or
+base64-encoded, so it inherits the title bar's text colour (a hard-coded black
+fill disappears on a dark ground) and survives markup sanitizing.
 
 ## Files
 
