@@ -40,6 +40,13 @@ custom_fields:
   field_type: string
   name: YouTube Data API Key
   placeholder: AIza...
+- keyname: doesnt_matter
+  name: About This Plugin
+  category: analytics
+  field_type: author_bio
+  description: Youtube Subscribe Count was created because the current ones don't have a simple counter
+  github_url: https://github.com/shaztechio/trmnl-yt-subscriber-count
+  learn_more_url: https://github.com/shaztechio/trmnl-yt-subscriber-count
 name: Youtube Channel Total Subscribers
 description: yt subscriber count
 refresh_interval: 15
