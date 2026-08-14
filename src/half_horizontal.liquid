@@ -4,8 +4,8 @@
   {% elsif hidden %}
     <span class="value value--small">Hidden</span>
   {% else %}
-    <span class="value value--xxlarge value--tnums">{{ count_text }}</span>
-    <span class="label">subscribers</span>
+    <span class="value value--xlarge lg:value--xxlarge portrait:value--large value--tnums">{{ count_text }}</span>
+    <span class="label">subscribers{% if delta_text %} &middot; {{ delta_text }}{% endif %}</span>
   {% endif %}
 </div>
 

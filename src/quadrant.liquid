@@ -1,10 +1,14 @@
+{% comment %}
+  Tightest space on the device, so it drops the delta and shrinks the label.
+{% endcomment %}
+
 <div class="layout layout--col layout--center layout--middle">
   {% if ok == false %}
     <span class="value value--xsmall">Not found</span>
   {% elsif hidden %}
     <span class="value value--xsmall">Hidden</span>
   {% else %}
-    <span class="value value--large value--tnums">{{ count_text }}</span>
+    <span class="value value--small lg:value--large value--tnums">{{ count_text }}</span>
     <span class="label label--small">subscribers</span>
   {% endif %}
 </div>

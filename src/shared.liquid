@@ -1,9 +1,52 @@
-{% assign node   = items[0] %}
-{% assign stats  = node.statistics %}
-{% assign title  = node.snippet.title %}
-{% assign subs   = stats.subscriberCount | plus: 0 %}
-{% assign hidden = stats.hiddenSubscriberCount %}
-{% if node %}{% assign ok = true %}{% else %}{% assign ok = false %}{% endif %}
+{% comment %}
+  shared.liquid -- normalize the payload, then format the count.
+
+  Handles BOTH upstream shapes so switching between them is a one-line change
+  in settings.yml:
+
+    Phase 1, YouTube Data API direct:  { items: [ { snippet, statistics } ] }
+    Phase 5, Cloudflare Worker:        { title, subscriberCount, delta, ... }
+
+  Exports: subs, title, hidden, ok, delta, count_text
+{% endcomment %}
+
+{% if items %}
+  {% comment %} --- YouTube Data API v3 shape --- {% endcomment %}
+  {% assign node   = items[0] %}
+  {% assign stats  = node.statistics %}
+  {% assign title  = node.snippet.title %}
+  {% assign subs   = stats.subscriberCount | plus: 0 %}
+  {% assign hidden = stats.hiddenSubscriberCount %}
+  {% assign delta  = nil %}
+  {% if node %}{% assign ok = true %}{% else %}{% assign ok = false %}{% endif %}
+{% else %}
+  {% comment %}
+    --- Worker shape ---
+    title, hidden and delta are already root-level variables with the right
+    names, so only subs needs deriving.
+  {% endcomment %}
+  {% assign subs = subscriberCount | plus: 0 %}
+  {% if channelId %}{% assign ok = true %}{% else %}{% assign ok = false %}{% endif %}
+{% endif %}
+
+{% comment %}
+  Format to three significant figures -- the same precision YouTube itself
+  publishes, so we never imply accuracy the API does not provide.
+
+  Built from integer arithmetic rather than float division, because Liquid
+  renders floats unpredictably (a round 20000000 surfaces as "20.0"). Every
+  division is followed by an explicit `floor`: Ruby Liquid truncates integer
+  division but liquidjs does not, and relying on that difference silently
+  produced "1.23.23M" here. `floor` is unambiguous in both engines.
+
+    x = subs / (unit), i.e. the count in hundredths of the display unit
+    x >= 10000 -> no decimals   (202M)
+    x >=  1000 -> one decimal   (20.2M)
+    else       -> two decimals  (1.23M)
+
+  Trailing zeros are then dropped so 1000000 reads "1M", not "1.00M" --
+  matching how YouTube displays it.
+{% endcomment %}
 
 {% if subs >= 1000000000 %}
   {% assign unit = 10000000 %}{% assign suffix = "B" %}
@@ -21,16 +64,22 @@
   {% assign x     = subs | divided_by: unit | floor %}
   {% assign whole = x | divided_by: 100 | floor %}
   {% assign frac  = x | modulo: 100 %}
+
   {% if x >= 10000 %}
+    {% comment %} 100+ units: three digits already, no decimals {% endcomment %}
     {% assign count_text = whole | append: suffix %}
+
   {% elsif x >= 1000 %}
+    {% comment %} 10.0-99.9 units: one decimal {% endcomment %}
     {% assign d1 = frac | divided_by: 10 | floor %}
     {% if d1 == 0 %}
       {% assign count_text = whole | append: suffix %}
     {% else %}
       {% assign count_text = whole | append: "." | append: d1 | append: suffix %}
     {% endif %}
+
   {% else %}
+    {% comment %} 1.00-9.99 units: two decimals {% endcomment %}
     {% assign f10 = frac | modulo: 10 %}
     {% if frac == 0 %}
       {% assign count_text = whole | append: suffix %}
@@ -38,8 +87,23 @@
       {% assign d1 = frac | divided_by: 10 | floor %}
       {% assign count_text = whole | append: "." | append: d1 | append: suffix %}
     {% else %}
-      {% if frac < 10 %}{% assign fs = frac | prepend: "0" %}{% else %}{% assign fs = frac %}{% endif %}
+      {% if frac < 10 %}
+        {% assign fs = frac | prepend: "0" %}
+      {% else %}
+        {% assign fs = frac %}
+      {% endif %}
       {% assign count_text = whole | append: "." | append: fs | append: suffix %}
     {% endif %}
   {% endif %}
+{% endif %}
+
+{% comment %} Signed delta, only meaningful once the Worker is supplying it. {% endcomment %}
+{% if delta and delta != 0 %}
+  {% if delta > 0 %}
+    {% assign delta_text = delta | prepend: "+" %}
+  {% else %}
+    {% assign delta_text = delta | append: "" %}
+  {% endif %}
+{% else %}
+  {% assign delta_text = nil %}
 {% endif %}

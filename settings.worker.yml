@@ -1,0 +1,40 @@
+---
+# Phase 5 — the same plugin, pointed at your Cloudflare Worker instead of
+# straight at googleapis.com.
+#
+# To switch:
+#   cp settings.worker.yml src/settings.yml
+#   # set polling_url below to your deployed Worker
+#   trmnlp push
+#
+# src/shared.liquid already normalizes both response shapes, so nothing else
+# changes. What you gain:
+#
+#   * No API key in the plugin config at all — the Worker holds it.
+#   * The subscriber delta appears, which is impossible with a direct poll:
+#     TRMNL's polling strategy is stateless and retains no previous value.
+#   * A free-text channel name works, because the Worker can afford the
+#     100-unit search call once and memoize the result forever.
+#   * Installers configure one field, so this is publishable as a zero-config
+#     recipe.
+
+name: YouTube Subscribers
+description: >-
+  Shows a single YouTube channel's subscriber count, nice and large,
+  with the size of its most recent change.
+
+strategy: polling
+polling_verb: GET
+refresh_interval: 15
+
+# Matches the Worker's own 15-minute freshness window, so most polls are
+# served from its cache and cost nothing upstream.
+polling_url: |
+  https://youtube-subs.YOUR-SUBDOMAIN.workers.dev/v1/channel?q={{ channel | url_encode }}
+
+custom_fields:
+  - keyname: channel
+    field_type: string
+    name: Channel
+    description: "A handle (@mkbhd), a channel ID (UCBJycsmduvYEL83R_U4JriQ), or a channel name"
+    placeholder: "@mkbhd"

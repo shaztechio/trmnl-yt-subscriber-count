@@ -1,11 +1,23 @@
+{% comment %}
+  No {% include "shared" %} and no <div class="view"> wrapper here, both on
+  purpose. TRMNL concatenates shared.liquid onto every view before rendering
+  (see trmnlp lib/trmnlp/renderer.rb) and supplies the view wrapper itself, so
+  a layout starts at .layout and adds .title_bar as a sibling.
+{% endcomment %}
+
 <div class="layout layout--col layout--center layout--middle">
   {% if ok == false %}
     <span class="value value--small">Channel not found</span>
+    <span class="label">Check the handle or channel ID in plugin settings</span>
   {% elsif hidden %}
     <span class="value value--large">Hidden</span>
+    <span class="label label--large">this channel hides its subscriber count</span>
   {% else %}
-    <span class="value value--xxxlarge value--tnums">{{ count_text }}</span>
+    <span class="value value--xxlarge lg:value--xxxlarge portrait:value--xlarge value--tnums">{{ count_text }}</span>
     <span class="label label--large">subscribers</span>
+    {% if delta_text %}
+      <span class="label">{{ delta_text }} since it last moved</span>
+    {% endif %}
   {% endif %}
 </div>
 

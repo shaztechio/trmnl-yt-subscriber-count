@@ -6,7 +6,10 @@ static_data: ''
 polling_verb: get
 framework_version: 3.2.0
 serverless_language: ''
-polling_url: https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&forHandle={{ channel }}&key={{ api_key }}
+polling_url: |-
+  {%- assign ch = channel | strip | remove: "@" -%}
+  {%- assign prefix = ch | slice: 0, 2 -%}
+  https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&{% if prefix == "UC" and ch.size == 24 %}id={{ ch }}{% else %}forHandle={{ ch | url_encode }}{% endif %}&key={{ api_key | url_encode }}
 polling_headers: ''
 polling_body: ''
 id: 442641

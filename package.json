@@ -1,0 +1,12 @@
+{
+  "name": "youtube-subs-trmnl",
+  "private": true,
+  "type": "module",
+  "description": "Liquid template regression tests for the TRMNL plugin",
+  "scripts": {
+    "test": "node test/format.test.mjs"
+  },
+  "devDependencies": {
+    "liquidjs": "^10.21.0"
+  }
+}
