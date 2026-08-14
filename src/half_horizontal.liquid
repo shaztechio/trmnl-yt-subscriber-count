@@ -10,7 +10,7 @@
 </div>
 
 <div class="title_bar">
-  <img class="image" src="data:image/svg+xml;base64,{{ icon_svg | base64_encode }}" width="24" height="24">
+  <svg class="image" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M3.6 4h16.8C22.4 4 24 5.6 24 7.6v8.8c0 2-1.6 3.6-3.6 3.6H3.6C1.6 20 0 18.4 0 16.4V7.6C0 5.6 1.6 4 3.6 4zM9.6 8.2v7.6l6.6-3.8-6.6-3.8z"/></svg>
   <span class="title">{{ title | default: "YouTube" }}</span>
   <span class="instance">{{ trmnl.plugin_settings.instance_name }}</span>
 </div>
