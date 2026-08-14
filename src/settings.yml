@@ -44,7 +44,7 @@ custom_fields:
   name: About This Plugin
   category: analytics
   field_type: author_bio
-  description: Youtube Subscribe Count was created because the current ones don't have a simple counter
+  description: Youtube Subscribe Count was created because the current ones don't have a simple counter, and you can display count for any channel
   github_url: https://github.com/shaztechio/trmnl-yt-subscriber-count
   learn_more_url: https://github.com/shaztechio/trmnl-yt-subscriber-count
 name: Youtube Channel Total Subscribers
