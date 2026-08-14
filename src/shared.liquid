@@ -1,0 +1,45 @@
+{% assign node   = items[0] %}
+{% assign stats  = node.statistics %}
+{% assign title  = node.snippet.title %}
+{% assign subs   = stats.subscriberCount | plus: 0 %}
+{% assign hidden = stats.hiddenSubscriberCount %}
+{% if node %}{% assign ok = true %}{% else %}{% assign ok = false %}{% endif %}
+
+{% if subs >= 1000000000 %}
+  {% assign unit = 10000000 %}{% assign suffix = "B" %}
+{% elsif subs >= 1000000 %}
+  {% assign unit = 10000 %}{% assign suffix = "M" %}
+{% elsif subs >= 1000 %}
+  {% assign unit = 10 %}{% assign suffix = "K" %}
+{% else %}
+  {% assign unit = 0 %}{% assign suffix = "" %}
+{% endif %}
+
+{% if unit == 0 %}
+  {% assign count_text = subs | append: "" %}
+{% else %}
+  {% assign x     = subs | divided_by: unit | floor %}
+  {% assign whole = x | divided_by: 100 | floor %}
+  {% assign frac  = x | modulo: 100 %}
+  {% if x >= 10000 %}
+    {% assign count_text = whole | append: suffix %}
+  {% elsif x >= 1000 %}
+    {% assign d1 = frac | divided_by: 10 | floor %}
+    {% if d1 == 0 %}
+      {% assign count_text = whole | append: suffix %}
+    {% else %}
+      {% assign count_text = whole | append: "." | append: d1 | append: suffix %}
+    {% endif %}
+  {% else %}
+    {% assign f10 = frac | modulo: 10 %}
+    {% if frac == 0 %}
+      {% assign count_text = whole | append: suffix %}
+    {% elsif f10 == 0 %}
+      {% assign d1 = frac | divided_by: 10 | floor %}
+      {% assign count_text = whole | append: "." | append: d1 | append: suffix %}
+    {% else %}
+      {% if frac < 10 %}{% assign fs = frac | prepend: "0" %}{% else %}{% assign fs = frac %}{% endif %}
+      {% assign count_text = whole | append: "." | append: fs | append: suffix %}
+    {% endif %}
+  {% endif %}
+{% endif %}

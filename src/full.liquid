@@ -1,0 +1,15 @@
+<div class="layout layout--col layout--center layout--middle">
+  {% if ok == false %}
+    <span class="value value--small">Channel not found</span>
+  {% elsif hidden %}
+    <span class="value value--large">Hidden</span>
+  {% else %}
+    <span class="value value--xxxlarge value--tnums">{{ count_text }}</span>
+    <span class="label label--large">subscribers</span>
+  {% endif %}
+</div>
+
+<div class="title_bar">
+  <span class="title">{{ title | default: "YouTube" }}</span>
+  <span class="instance">{{ trmnl.plugin_settings.instance_name }}</span>
+</div>

@@ -1,0 +1,14 @@
+<div class="layout layout--col layout--center layout--middle">
+  {% if ok == false %}
+    <span class="value value--xsmall">Not found</span>
+  {% elsif hidden %}
+    <span class="value value--xsmall">Hidden</span>
+  {% else %}
+    <span class="value value--large value--tnums">{{ count_text }}</span>
+    <span class="label label--small">subscribers</span>
+  {% endif %}
+</div>
+
+<div class="title_bar">
+  <span class="title">{{ title | default: "YouTube" }}</span>
+</div>

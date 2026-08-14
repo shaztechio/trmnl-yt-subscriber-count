@@ -1,0 +1,45 @@
+---
+strategy: polling
+no_screen_padding: 'no'
+dark_mode: 'no'
+static_data: ''
+polling_verb: get
+framework_version: 3.2.0
+serverless_language: ''
+polling_url: https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&forHandle={{ channel }}&key={{ api_key }}
+polling_headers: ''
+polling_body: ''
+id: 442641
+oauth_enabled: 'false'
+oauth_pkce_enabled: 'no'
+oauth_authorize_url: ''
+oauth_token_url: ''
+oauth_scopes: ''
+oauth_scope_separator: ''
+oauth_refresh_url: ''
+oauth_auth_params: ''
+oauth_token_headers: ''
+oauth_token_site: ''
+oauth_token_params: ''
+oauth_token_request_auth_method: ''
+oauth_body_format: ''
+oauth_token_response_metadata: ''
+oauth_authorization_method: ''
+oauth_refresh_params: ''
+oauth_token_field_name: ''
+oauth_expiry_field_name: ''
+oauth_expiry_strategy: ''
+oauth_fixed_expiry_ms: ''
+custom_fields:
+- keyname: channel
+  field_type: string
+  name: Channel
+  description: Handle (mkbhd) or channel ID (UCBJycsmduvYEL83R_U4JriQ)
+  placeholder: mkbhd
+- keyname: api_key
+  field_type: string
+  name: YouTube Data API Key
+  placeholder: AIza...
+name: Youtube Channel Total Subscribers
+description: yt subscriber count
+refresh_interval: 15
