@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+  <!-- 1-bit title-bar icon. Solid silhouette with the play triangle knocked
+       out via fill-rule="evenodd" — no gradients, no grays, no sub-pixel
+       strokes. E-ink is pure black and white, so anything in between dithers
+       into noise at 24px. The rising-arrow motif from the full-colour icon is
+       deliberately omitted: at this size it merges with the badge. -->
+  <path fill="#000" fill-rule="evenodd" d="
+    M3.6 4h16.8C22.4 4 24 5.6 24 7.6v8.8c0 2-1.6 3.6-3.6 3.6H3.6
+    C1.6 20 0 18.4 0 16.4V7.6C0 5.6 1.6 4 3.6 4z
+    M9.6 8.2v7.6l6.6-3.8-6.6-3.8z"/>
+</svg>
