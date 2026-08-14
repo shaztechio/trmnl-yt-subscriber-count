@@ -34,13 +34,14 @@ custom_fields:
 - keyname: channel
   field_type: string
   name: Channel
-  description: Handle (mkbhd) or channel ID (UCBJycsmduvYEL83R_U4JriQ)
+  description: A handle like <b>mkbhd</b>, or a channel ID like <b>UCBJycsmduvYEL83R_U4JriQ</b>
   placeholder: mkbhd
 - keyname: api_key
   field_type: string
   name: YouTube Data API Key
   placeholder: AIza...
-  help_text: https://github.com/shaztechio/trmnl-yt-subscriber-count
+  description: Needs YouTube Data API v3 enabled, restricted to that API <b>only</b>
+  help_text: An <b>Application</b> restriction (HTTP referrer or IP) will block TRMNL — see <a class="underline" href="https://github.com/shaztechio/trmnl-yt-subscriber-count#setup" target="_blank">setup instructions</a>.
 - keyname: doesnt_matter
   name: About This Plugin
   category: analytics

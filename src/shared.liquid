@@ -7,8 +7,31 @@
     Phase 1, YouTube Data API direct:  { items: [ { snippet, statistics } ] }
     Phase 5, Cloudflare Worker:        { title, subscriberCount, delta, ... }
 
-  Exports: subs, title, hidden, ok, delta, count_text
+  Exports: subs, title, hidden, ok, delta, count_text, api_error
 {% endcomment %}
+
+{% comment %}
+  A rejected key and a missing channel both arrive as "no items", so without
+  this the screen blames the channel for what is nearly always a credential
+  problem. Google returns { error: { code, message, errors: [{ reason }] } },
+  and the reason maps to something the user can actually act on.
+{% endcomment %}
+{% assign api_error = nil %}
+{% if error %}
+  {% assign reason = error.errors[0].reason %}
+  {% case reason %}
+    {% when "ipRefererBlocked" %}
+      {% assign api_error = "Remove the API key's app restriction" %}
+    {% when "accessNotConfigured" %}
+      {% assign api_error = "Enable YouTube Data API v3" %}
+    {% when "quotaExceeded" %}
+      {% assign api_error = "Daily quota exceeded" %}
+    {% when "keyInvalid" %}
+      {% assign api_error = "API key is not valid" %}
+    {% else %}
+      {% assign api_error = error.message | default: "YouTube returned an error" %}
+  {% endcase %}
+{% endif %}
 
 {% if items %}
   {% comment %} --- YouTube Data API v3 shape --- {% endcomment %}

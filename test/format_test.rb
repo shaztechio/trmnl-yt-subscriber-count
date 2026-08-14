@@ -102,6 +102,42 @@ end
   end
 end
 
+# A rejected key must not be reported as a missing channel — that sends users
+# hunting for a typo in a handle that is perfectly correct.
+API_ERRORS = {
+  'ipRefererBlocked'   => "Remove the API key's app restriction",
+  'accessNotConfigured' => 'Enable YouTube Data API v3',
+  'quotaExceeded'      => 'Daily quota exceeded',
+  'keyInvalid'         => 'API key is not valid',
+}
+API_ERRORS.each do |reason, expected|
+  payload = { 'error' => { 'code' => 403, 'message' => 'denied',
+                           'errors' => [{ 'reason' => reason }] } }
+  html = render(view_source('full'), payload)
+  ok = html.include?(expected) && html.include?('Check API key')
+  failures += 1 unless ok
+  puts format('%-4s api error %-20s %s', ok ? 'ok' : 'FAIL', reason, expected)
+end
+
+# An unrecognised reason falls back to Google's own message.
+html = render(view_source('full'),
+              { 'error' => { 'message' => 'Something odd', 'errors' => [{ 'reason' => 'weird' }] } })
+if html.include?('Something odd')
+  puts 'ok   api error fallback uses the upstream message'
+else
+  failures += 1
+  puts "FAIL api error fallback: #{html[/<span class=\"label\">(.*?)</m, 1].inspect}"
+end
+
+# A genuinely absent channel must still say so, not blame the key.
+html = render(view_source('full'), { 'items' => [] })
+if html.include?('Channel not found') && !html.include?('Check API key')
+  puts 'ok   empty items still reports channel not found'
+else
+  failures += 1
+  puts 'FAIL empty items misreported'
+end
+
 # Structural guards. Both of these rendered fine under an {% include %}-based
 # harness while being broken on the actual platform, so assert them directly.
 %w[full half_horizontal half_vertical quadrant].each do |view|

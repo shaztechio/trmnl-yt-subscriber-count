@@ -6,7 +6,10 @@
 {% endcomment %}
 
 <div class="layout layout--col layout--center layout--middle">
-  {% if ok == false %}
+  {% if api_error %}
+    <span class="value value--small">Check API key</span>
+    <span class="label">{{ api_error }}</span>
+  {% elsif ok == false %}
     <span class="value value--small">Channel not found</span>
     <span class="label">Check the handle or channel ID in plugin settings</span>
   {% elsif hidden %}

@@ -1,5 +1,8 @@
 <div class="layout layout--col layout--center layout--middle">
-  {% if ok == false %}
+  {% if api_error %}
+    <span class="value value--small">Check API key</span>
+    <span class="label label--small">{{ api_error }}</span>
+  {% elsif ok == false %}
     <span class="value value--small">Channel not found</span>
   {% elsif hidden %}
     <span class="value value--small">Hidden</span>

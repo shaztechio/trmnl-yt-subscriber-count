@@ -3,7 +3,9 @@
 {% endcomment %}
 
 <div class="layout layout--col layout--center layout--middle">
-  {% if ok == false %}
+  {% if api_error %}
+    <span class="value value--xsmall">Key error</span>
+  {% elsif ok == false %}
     <span class="value value--xsmall">Not found</span>
   {% elsif hidden %}
     <span class="value value--xsmall">Hidden</span>
