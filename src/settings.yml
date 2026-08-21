@@ -31,6 +31,13 @@ oauth_expiry_field_name: ''
 oauth_expiry_strategy: ''
 oauth_fixed_expiry_ms: ''
 custom_fields:
+- keyname: doesnt_matter
+  name: About This Plugin
+  category: analytics
+  field_type: author_bio
+  description: YouTube Subscribe Count was created because the current ones don't have a simple counter, and you can display the numbers for any channel
+  github_url: https://github.com/shaztechio/trmnl-yt-subscriber-count
+  learn_more_url: https://github.com/shaztechio/trmnl-yt-subscriber-count
 - keyname: channel
   field_type: string
   name: Channel
@@ -42,13 +49,6 @@ custom_fields:
   placeholder: AIza...
   description: Needs YouTube Data API v3 enabled, restricted to that API <b>only</b>
   help_text: An <b>Application</b> restriction (HTTP referrer or IP) will block TRMNL — see <a class="underline" href="https://github.com/shaztechio/trmnl-yt-subscriber-count#setup" target="_blank">setup instructions</a>.
-- keyname: doesnt_matter
-  name: About This Plugin
-  category: analytics
-  field_type: author_bio
-  description: YouTube Subscribe Count was created because the current ones don't have a simple counter, and you can display the numbers for any channel
-  github_url: https://github.com/shaztechio/trmnl-yt-subscriber-count
-  learn_more_url: https://github.com/shaztechio/trmnl-yt-subscriber-count
 name: Youtube Channel Total Subscribers
 description: yt subscriber count
 refresh_interval: 15
