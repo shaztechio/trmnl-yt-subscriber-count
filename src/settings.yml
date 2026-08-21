@@ -49,6 +49,6 @@ custom_fields:
   placeholder: AIza...
   description: Needs YouTube Data API v3 enabled, restricted to that API <b>only</b>
   help_text: An <b>Application</b> restriction (HTTP referrer or IP) will block TRMNL — see <a class="underline" href="https://github.com/shaztechio/trmnl-yt-subscriber-count#setup" target="_blank">setup instructions</a>.
-name: Youtube Channel Total Subscribers
+name: YouTube Channel Total Subscribers
 description: yt subscriber count
 refresh_interval: 15
